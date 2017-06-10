@@ -1,2 +1,3 @@
-# Solucion_Laberinto
-Este proyecto permite la solucion de un laberinto utilizando la teoria de grafos.
+# Micromouse Solve Maze
+
+Se utiliza el algoritmo flood-fill para la solución del laberinto.
