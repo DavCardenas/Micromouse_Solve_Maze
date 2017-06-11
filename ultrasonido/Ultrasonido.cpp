@@ -10,8 +10,8 @@ Ultrasonido::Ultrasonido(){
 	pinMode(A3,INPUT);
 	pinMode(A4,OUTPUT);
 	pinMode(A5,INPUT);
-	pinMode(2,OUTPUT);
-	pinMode(3,INPUT);
+	pinMode(7,OUTPUT);
+	pinMode(8,INPUT);
 
 	Serial.begin(9600);
 }
@@ -28,19 +28,17 @@ int Ultrasonido::calcularDistancia(int sensor){
       		Serial.println("Distancia ");
       		Serial.println(distancia);
       		Serial.println(" cm");
-      		delay(10);
   		break;
   		case 2: // Izquierda
-  			digitalWrite(2,LOW);
+  			digitalWrite(7,LOW);
       		delayMicroseconds(5);
-     		digitalWrite(2, HIGH); /* envío del pulso ultrasónico*/
+     		digitalWrite(7, HIGH); /* envío del pulso ultrasónico*/
       		delayMicroseconds(10);
-     		tiempo=pulseIn(3, HIGH);
+     		tiempo=pulseIn(8, HIGH);
       		distancia= int(0.017*tiempo);
       		Serial.println("Distancia ");
       		Serial.println(distancia);
       		Serial.println(" cm");
-      		delay(10);
   		break;
   		case 3: // Derecha
   			digitalWrite(A2,LOW);
@@ -52,7 +50,6 @@ int Ultrasonido::calcularDistancia(int sensor){
       		Serial.println("Distancia ");
       		Serial.println(distancia);
       		Serial.println(" cm");
-      		delay(10);
   		break;
   	}
 

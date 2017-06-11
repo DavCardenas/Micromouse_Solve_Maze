@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 class Motores
 {
 
@@ -16,11 +17,17 @@ private:
 
 	// porcentaje de velocidad (0 - 1)
 	double speed;
+	int toggles;
+	int steps;
 public:
-	Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2);
+	Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles);
 	~Motores();
 	void move(int direction);
 	void stop();
 	double getSpeed();
 	void setSpeed(double spd);
+	void turnRigth();
+	void turnLeft();
+	void setToggles(int ammount);
+	void setStep();
 };
