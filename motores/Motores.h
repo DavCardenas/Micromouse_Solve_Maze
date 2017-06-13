@@ -18,9 +18,10 @@ private:
 	// porcentaje de velocidad (0 - 1)
 	double speed;
 	int toggles;
-	int steps;
+
+	Encoder *encoder;
 public:
-	Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles);
+	Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles, Encoder *p_encoder);
 	~Motores();
 	void move(int direction);
 	void stop();
@@ -29,5 +30,5 @@ public:
 	void turnRigth();
 	void turnLeft();
 	void setToggles(int ammount);
-	void setStep();
+	void turnGire();
 };

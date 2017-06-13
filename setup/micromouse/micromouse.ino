@@ -3,7 +3,7 @@
 #include <Motores.h>
 
 Encoder encoder(2);
-Motores motores(5,6,9,10,1);
+Motores motores(5,6,9,10,45, &encoder);
 Ultrasonido ultrasonido;
 
 void setup() {
@@ -13,27 +13,30 @@ void setup() {
 
 void loop() {
 
-motores.setSpeed(0.6);
-//  if(ultrasonido.calcularDistancia(1) > 20){
-//      motores.move(1); // mover de frente
-//  }else if(ultrasonido.calcularDistancia(2) > ultrasonido.calcularDistancia(3)){
-//   motores.move(4); // mover izquierda
-//  }else if(ultrasonido.calcularDistancia(3) > ultrasonido.calcularDistancia(2)){
- //  motores.move(3); // mover derecha
- // }else{
-   //  motores.move(2);
-  //}
+motores.setSpeed(0.35);
+  if(ultrasonido.calcularDistancia(1) > 5){
+      motores.move(1); // mover de frente
+  }else{
+    motores.stop();
+    
+    
+    if(ultrasonido.calcularDistancia(2) > 15){
+      motores.move(4);
+    }else if(ultrasonido.calcularDistancia(2) > 15){
+      motores.move(3);  
+    }else{
+      motores.move(2);  
+    }
 
-  motores.move(3); // mover derecha
-  delay(2000);
-  motores.move(4); // mover derecha
-  delay(2000);
-  //Serial.println(ultrasonido.calcularDistancia(3));
+    
+  }  
+}
+
+void move(){
   
 }
 
 void isrFunc(){
-  Serial.println("entra");
+  Serial.println(encoder.getSteps());
   encoder.countSteps();
-  motores.setStep();
 }

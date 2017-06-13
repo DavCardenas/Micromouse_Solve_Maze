@@ -2,7 +2,7 @@
 #include <Encoder.h>
 #include "Motores.h"
 
-Motores::Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles){
+Motores::Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles, Encoder *p_encoder){
 	this-> pin_a_1 = pin_a_1;
 	this-> pin_a_2 = pin_a_2;
 	this-> pin_b_1 = pin_b_1;
@@ -15,7 +15,8 @@ Motores::Motores(int pin_a_1, int pin_a_2, int pin_b_1, int pin_b_2, int toggles
 
 	this-> speed = 1;
 	this-> toggles = toggles;
-	this-> steps = 0;
+
+	this-> encoder = p_encoder;
 	Serial.begin(9600);
 }
 
@@ -28,13 +29,17 @@ void Motores::move(int direction){
 		this-> pwm_4 = (int) (0 * speed);
 	 }else if (direction == 2) // Atras
 	 {
-	 	this-> pwm_1 = (int) (255 * speed);
-		this-> pwm_2 = (int) (0 * speed);
-		this-> pwm_3 = (int) (0 * speed);
-		this-> pwm_4 = (int) (255 * speed);
+	 	//this-> pwm_1 = (int) (255 * speed);
+		//this-> pwm_2 = (int) (0 * speed);
+		//this-> pwm_3 = (int) (0 * speed);
+		//this-> pwm_4 = (int) (255 * speed);
+	 	this->turnGire();
+
 	 }else if (direction == 3) // Derecha
 	 {
 	 	this-> turnRigth();
+	 	Serial.print("este es el valor del encoder ");
+	 	Serial.print(this->encoder->getSteps());
 	 }else if (direction == 4) //Izquierda
 	 {
 	 	this-> turnLeft();	 	
@@ -78,6 +83,7 @@ void Motores::turnRigth(){
 
 	bool temp = true;
 
+
 	while(temp){
 
 		analogWrite(pin_a_1, pwm_1);
@@ -85,10 +91,10 @@ void Motores::turnRigth(){
   		analogWrite(pin_b_1, pwm_3);
   		analogWrite(pin_b_2, pwm_4);
 
-		if (this->steps >= this-> toggles)
+		if (encoder->getSteps() >= this-> toggles)
 		{
 			temp = false;
-			this->steps = 0;
+			encoder->setSteps(0);
 		}
 	}
 
@@ -109,16 +115,35 @@ void Motores::turnLeft(){
   		analogWrite(pin_b_1, pwm_3);
   		analogWrite(pin_b_2, pwm_4);
 
-		if (this->steps >= this-> toggles)
+		if (encoder->getSteps() >= this-> toggles)
 		{
 			temp = false;
-			this->steps = 0;
+			encoder->setSteps(0);
 		}
 	}
 }
 
-void Motores::setStep(){
-	this->steps = steps + 1;
+void Motores::turnGire(){
+	this-> pwm_1 = (int) (0 * speed);
+	this-> pwm_2 = (int) (255 * speed);
+	this-> pwm_3 = (int) (0 * speed);
+	this-> pwm_4 = (int) (255 * speed);
+
+	bool temp = true;
+
+	while(temp){
+
+		analogWrite(pin_a_1, pwm_1);
+  		analogWrite(pin_a_2, pwm_2);
+  		analogWrite(pin_b_1, pwm_3);
+  		analogWrite(pin_b_2, pwm_4);
+
+		if (encoder->getSteps() >= this-> toggles*2)
+		{
+			temp = false;
+			encoder->setSteps(0);
+		}
+	}
 }
 
 Motores::~Motores(){

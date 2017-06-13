@@ -16,7 +16,7 @@ void Encoder::countSteps(){
 }
 
 int Encoder::getSteps(){
-	return this-> count;
+	return this-> count/2;
 }
 
 void Encoder::setSteps(int ammount){
